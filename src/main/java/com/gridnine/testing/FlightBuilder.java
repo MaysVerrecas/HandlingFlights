@@ -1,18 +1,19 @@
 package com.gridnine.testing;
 
 
+import com.gridnine.testing.model.Flight;
+import com.gridnine.testing.model.Segment;
+
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
+
 
 /**
  * Factory class to get sample list of flights.
  */
-class FlightBuilder {
+public class FlightBuilder {
     static List<Flight> createFlights() {
         LocalDateTime threeDaysFromNow = LocalDateTime.now().plusDays(3);
         return Arrays.asList(
@@ -47,53 +48,3 @@ class FlightBuilder {
     }
 }
 
-/**
- * Bean that represents a flight.
- */
-class Flight {
-    private final List<Segment> segments;
-
-    Flight(final List<Segment> segs) {
-        segments = segs;
-    }
-
-    List<Segment> getSegments() {
-        return segments;
-    }
-
-    @Override
-    public String toString() {
-        return segments.stream().map(Object::toString)
-                .collect(Collectors.joining(" "));
-    }
-}
-
-/**
- * Bean that represents a flight segment.
- */
-class Segment {
-    private final LocalDateTime departureDate;
-
-    private final LocalDateTime arrivalDate;
-
-    Segment(final LocalDateTime dep, final LocalDateTime arr) {
-        departureDate = Objects.requireNonNull(dep);
-        arrivalDate = Objects.requireNonNull(arr);
-    }
-
-    LocalDateTime getDepartureDate() {
-        return departureDate;
-    }
-
-    LocalDateTime getArrivalDate() {
-        return arrivalDate;
-    }
-
-    @Override
-    public String toString() {
-        DateTimeFormatter fmt =
-                DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-        return '[' + departureDate.format(fmt) + '|' + arrivalDate.format(fmt)
-                + ']';
-    }
-}
